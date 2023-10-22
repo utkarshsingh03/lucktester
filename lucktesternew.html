@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luck Tester</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://img.freepik.com/free-photo/abstract-grunge-decorative-relief-navy-blue-stucco-wall-texture-wide-angle-rough-colored-background_1258-28311.jpg?w=1800&t=st=1697995993~exp=1697996593~hmac=f3ca95c06ba0e97b8ff243b3309184842a0cc1fc0d8d4b5b72f8912eb805326e') no-repeat center center fixed;
+            background-size: cover;
+            text-align: center;
+            color: #333;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #0e19f1;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .result-box {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+
+        .disclaimer {
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .try-again-btn {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        .message-box {
+            display: none;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: left;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .message-box.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .name-input {
+            text-align: center;
+        }
+
+        .name-input input {
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #0e19f1;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .name-input button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #0e19f1;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Luck Tester</h1>
+        <div class="name-input" id="name-input">
+            <input type="text" id="user-name" placeholder="Enter your name">
+            <button id="start-game">Start Game</button>
+        </div>
+        <div class="btn-container" id="btn-container" style="display: none;">
+            <button class="btn" id="button1" disabled>Button 1</button>
+            <button class="btn" id="button2" disabled>Button 2</button>
+        </div>
+        <p class="result-box" id="result"></p>
+        <button class="try-again-btn" id="try-again">Try Again</button>
+    </div>
+
+    <!-- Adding the message box -->
+    <div class="message-box" id="message-box">
+        <p>Quotes about luck and philosophy:</p>
+        <blockquote>
+            "Luck is what happens when preparation meets opportunity." - Seneca
+        </blockquote>
+        <blockquote>
+            "The harder I work, the luckier I get." - Samuel Goldwyn
+        </blockquote>
+        <blockquote>
+            "In the middle of every difficulty lies opportunity." - Albert Einstein
+        </blockquote>
+        <p>We use advanced AI and ML models combined with insights from ancient scriptures and the positions of celestial bodies to determine your luck.</p>
+    </div>
+
+    <!-- Adding audio elements for button sounds and music -->
+    <audio id="button-sound" src="click.mp3" preload="auto"></audio>
+    <audio id="lucky-music" src="lucky.mp3" preload="auto"></audio>
+    <audio id="unlucky-music" src="unlucky.mp3" preload="auto"></audio>
+
+    <script>
+        const button1 = document.getElementById("button1");
+        const button2 = document.getElementById("button2");
+        const startGameButton = document.getElementById("start-game");
+        const resultElement = document.getElementById("result");
+        const tryAgainButton = document.getElementById("try-again");
+        const buttonSound = document.getElementById("button-sound");
+        const luckyMusic = document.getElementById("lucky-music");
+        const unluckyMusic = document.getElementById("unlucky-music");
+        const messageBox = document.getElementById("message-box");
+        const nameInput = document.getElementById("name-input");
+        const btnContainer = document.getElementById("btn-container");
+        const userName = document.getElementById("user-name");
+
+        let win = 0;
+        let loss = 0;
+
+        startGameButton.addEventListener("click", () => {
+            const name = userName.value.trim();
+
+                                    const user_Name = name; // Replace with the user's name
+            fetch('https://script.google.com/macros/s/AKfycbyppV27dQVw3TBFtV8OeGfsGS1j-xGiFWAZWMOah7foj-sDFy05ErY7vRKasyv8Rh2_/exec', {
+            method: 'POST',
+            body: `name=${user_Name}`,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data); // Data saved successfully.
+            });
+            
+            if (name !== "") {
+                nameInput.style.display = "none";
+                btnContainer.style.display = "block";
+                displayUserName(name);
+                button1.removeAttribute("disabled");
+                button2.removeAttribute("disabled");
+            } else {
+                alert("Please enter your name to start the game.");
+            }
+
+
+
+        });
+
+        function displayUserName(name) {
+            resultElement.textContent = `Hello, ${name}! Choose any button 10 times.`;
+        }
+
+        button1.addEventListener("click", () => {
+            checkResult('1');
+        });
+
+        button2.addEventListener("click", () => {
+            checkResult('2');
+        });
+
+        function checkResult(guess) {
+            // Play button click sound
+            buttonSound.play();
+
+            if (win + loss >= 10) {
+                if (win >= 7) {
+                    resultElement.textContent = "You are very lucky";
+                    // Play lucky music
+                    luckyMusic.play();
+                } else if (win >= 5) {
+                    resultElement.textContent = "You are okayish";
+                } else {
+                    resultElement.textContent = "You are unlucky, go to a nearby astrologer and get it checked, ASAP";
+                    // Play unlucky music
+                    unluckyMusic.play();
+                }
+                showMessageBox();
+                // Disable the buttons and show the try-again button
+                button1.disabled = true;
+                button2.disabled = true;
+                tryAgainButton.style.display = "block";
+            } else {
+                let x = Math.random();
+                let comp;
+
+                if (x < 1 / 2) {
+                    comp = '1';
+                } else {
+                    comp = '2';
+                }
+
+                if (comp === guess) {
+                    win++;
+                } else {
+                    loss++;
+                }
+            }
+        }
+
+        tryAgainButton.addEventListener("click", () => {
+            // Reset the game for another round
+            win = 0;
+            loss = 0;
+            userName.value = ""; // Clear the user's name
+            nameInput.style.display = "block"; // Show the name input
+            btnContainer.style.display = "none"; // Hide the button container
+            resultElement.textContent = "";
+            button1.disabled = true;
+            button2.disabled = true;
+            tryAgainButton.style.display = "none";
+            hideMessageBox();
+        });
+
+        function showMessageBox() {
+            messageBox.style.display = "block";
+            setTimeout(() => {
+                messageBox.classList.add("show");
+            }, 10);
+        }
+
+        function hideMessageBox() {
+            messageBox.classList.remove("show");
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
